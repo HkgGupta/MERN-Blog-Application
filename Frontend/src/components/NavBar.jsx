@@ -23,16 +23,16 @@ const NavBar = () => {
         </button>
       ) : (
         <>
-          <button className='hover:text-blue-500 border-b border-transparent hover:border-blue-500 duration-200 p-2'>
+          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
             <Link to="/" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoHomeOutline size={18} /> Home</Link>
           </button>
-          <button className='hover:text-blue-500 border-b border-transparent hover:border-blue-500 duration-200 p-2'>
+          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
             <Link to="/post/create" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoCreateOutline size={20} /> Create</Link>
           </button>
-          <button className='hover:text-blue-500 border-b border-transparent hover:border-blue-500 duration-200 p-2'>
+          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
             <Link to="/profile" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><LuUser size={20} /> Profile</Link>
           </button>
-          <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-2 border border-red-500 hover:border-transparent rounded flex items-center gap-[6px]" onClick={toggleMobileNav}>
+          <button className="bg-transparent hover:bg-red-500 text-white font-semibold hover:text-white py-2 px-2 border border-red-500 hover:border-transparent rounded flex items-center gap-[6px]" onClick={toggleMobileNav}>
             <IoLogOutOutline size={20} /> Logout
           </button>
         </>
@@ -41,11 +41,11 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="h-16 flex items-center justify-between px-2 py-2 bg-slate-200 shadow lg:gap-4">
+    <nav className="h-[70px] flex items-center justify-between px-2 py-2 bg-[#2e9ad0] text-white shadow-xl lg:gap-4">
       {/* Logo and Branding */}
       <div className="flex items-center mx-2">
         <Link to="/" className="flex items-center">
-          <img src="images/blog.png" alt="logo" className="w-16 inline" />
+          <img src="images/logo.png" alt="logo" className="w-[70px] inline" />
           <h1 className="hidden text-2xl font-bold min-[1020px]:inline ml-2 font-ubuntu">Blogs</h1>
         </Link>
       </div>
@@ -77,15 +77,15 @@ const NavBar = () => {
           aria-label="Toggle navigation menu"
         >
           {isMobileNavOpen ? (
-            <IoClose size={26} className='text-orange-500' />
+            <IoClose size={26} className='text-[#000a30]' />
           ) : (
-            <CgMenuRight size={26} className='text-orange-500' />
+            <CgMenuRight size={26} className='text-[#000a30]' />
           )}
         </button>
 
         {/* Mobile Navigation Menu */}
         <ul
-          className={`duration-500 flex justify-center items-center ${isMobileNavOpen ? 'translate-x-0 opacity-100 pointer-events-auto' : 'translate-x-[-30%] opacity-0 pointer-events-none -z-10'} md:hidden gap-2 flex-col absolute right-2 top-12 bg-white py-2 px-4 shadow-xl rounded-md w-[150px]`}
+          className={`duration-500 flex justify-center items-center ${isMobileNavOpen ? 'translate-x-0 opacity-100 pointer-events-auto' : 'translate-x-[-30%] opacity-0 pointer-events-none -z-10'} md:hidden gap-2 flex-col absolute right-2 top-16 bg-[#2e9ad0ce] py-2 px-4 shadow-xl rounded-md w-[150px]`}
         >
           {renderNavLinks()}
         </ul>
