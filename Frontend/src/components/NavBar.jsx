@@ -27,7 +27,7 @@ const NavBar = () => {
             <Link to="/" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoHomeOutline size={18} /> Home</Link>
           </button>
           <button className='hover:text-blue-500 border-b border-transparent hover:border-blue-500 duration-200 p-2'>
-              <Link to="/post/create" onClick={toggleMobileNav} className='flex items-center gap-1'><IoCreateOutline size={20} /> Create</Link>
+            <Link to="/post/create" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoCreateOutline size={20} /> Create</Link>
           </button>
           <button className='hover:text-blue-500 border-b border-transparent hover:border-blue-500 duration-200 p-2'>
             <Link to="/profile" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><LuUser size={20} /> Profile</Link>
@@ -46,7 +46,7 @@ const NavBar = () => {
       <div className="flex items-center mx-2">
         <Link to="/" className="flex items-center">
           <img src="images/blog.png" alt="logo" className="w-16 inline" />
-          <h1 className="hidden text-2xl font-bold min-[1020px]:inline ml-2 font-mono">Blogs</h1>
+          <h1 className="hidden text-2xl font-bold min-[1020px]:inline ml-2 font-ubuntu">Blogs</h1>
         </Link>
       </div>
 
@@ -95,4 +95,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar
+export default NavBar;
