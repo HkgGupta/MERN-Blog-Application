@@ -5,7 +5,9 @@
 @tailwind utilities;
 
 @layer base {
+    
     html {
         font-family: "Lato", system-ui;
     }
 }
+

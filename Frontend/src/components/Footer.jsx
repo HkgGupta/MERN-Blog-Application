@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
     return (
-        <div className='w-full bg-[#000a30] flex flex-col items-center px-2 py-5 gap-3 font-ubuntu'>
+        <div className='w-full h-[150px] bg-[#000a30] flex flex-col items-center justify-center px-2 py-5 gap-3 font-ubuntu'>
             <div className='flex justify-center items-center gap-3 text-xl md:text-2xl text-white '>
                 <Link className='border rounded-full p-2 hover:text-black hover:bg-white duration-300' to="/">
                     <TbBrandGithubFilled />

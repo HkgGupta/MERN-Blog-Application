@@ -13,24 +13,26 @@ import PostList from './pages/Posts/PostList';
 
 const App = () => {
   return (
-    <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <div className="w-full  bg-[#F2F8FF]">
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/posts" element={<PostList />} />
-        <Route path='/post/:id' element={<PostView />} />
+          <Route path="/posts" element={<PostList />} />
+          <Route path='/post/:id' element={<PostView />} />
 
-        <Route path="/post/create" element={<PostCreate />} />
-        <Route path="/post/edit/:id" element={<PostEdit />} />
-        <Route path="/profile" element={<Profile />} />
+          <Route path="/post/create" element={<PostCreate />} />
+          <Route path="/post/edit/:id" element={<PostEdit />} />
+          <Route path="/profile" element={<Profile />} />
 
-        <Route path="/" element={<PostList />} />
-      </Routes>
-      <Footer />
-    </Router>
+          <Route path="/" element={<PostList />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </div>
   );
 };
 

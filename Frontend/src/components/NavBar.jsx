@@ -5,6 +5,7 @@ import { CgMenuRight } from "react-icons/cg";
 import { IoClose, IoHomeOutline, IoCreateOutline, IoLogOutOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
 import { TbUserCheck } from "react-icons/tb";
+import logo from '../assets/logo.png';
 
 const NavBar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -18,21 +19,21 @@ const NavBar = () => {
   const renderNavLinks = () => (
     <>
       {!isLoggedIn ? (
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button className="bg-white text-blue-700 hover:bg-blue-800 hover:text-white font-bold py-2 px-4 rounded duration-200 shadow-md">
           <Link to="/login" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><TbUserCheck size={22} />Sign In</Link>
         </button>
       ) : (
         <>
-          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
+          <button className='border-b-2 border-transparent hover:shadow-xl hover:border-[#001F3F] duration-200 p-2'>
             <Link to="/" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoHomeOutline size={18} /> Home</Link>
           </button>
-          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
+          <button className='border-b-2 border-transparent hover:shadow-xl hover:border-[#001F3F] duration-200 p-2'>
             <Link to="/post/create" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><IoCreateOutline size={20} /> Create</Link>
           </button>
-          <button className='border-b border-transparent hover:border-[#001F3F] hover:text-[#001F3F] duration-200 p-2'>
+          <button className='border-b-2 border-transparent hover:shadow-xl hover:border-[#001F3F] duration-200 p-2'>
             <Link to="/profile" onClick={toggleMobileNav} className='flex items-center gap-[6px]'><LuUser size={20} /> Profile</Link>
           </button>
-          <button className="bg-transparent hover:bg-red-500 text-white font-semibold hover:text-white py-2 px-2 border border-red-500 hover:border-transparent rounded flex items-center gap-[6px]" onClick={toggleMobileNav}>
+          <button className="bg-transparent hover:bg-red-500 text-white font-semibold hover:text-white py-2 px-2 border border-white hover:border-transparent rounded flex items-center gap-[6px]" onClick={toggleMobileNav}>
             <IoLogOutOutline size={20} /> Logout
           </button>
         </>
@@ -45,7 +46,7 @@ const NavBar = () => {
       {/* Logo and Branding */}
       <div className="flex items-center mx-2">
         <Link to="/" className="flex items-center">
-          <img src="images/logo.png" alt="logo" className="w-[70px] inline" />
+          <img src={logo} alt="logo" className="w-[70px] inline" />
           <h1 className="hidden text-2xl font-bold min-[1020px]:inline ml-2 font-ubuntu">Blogs</h1>
         </Link>
       </div>

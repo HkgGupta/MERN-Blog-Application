@@ -2,21 +2,23 @@ import React from 'react';
 
 const PostCard = () => {
 
-    const post = {
+    const blogPost = {
+        id: 1,
+        postImage: '../src/assets/blog-post.jpg',
         title: 'Lorem ipsum dolor sit amet ipsum dolor sit amet hello',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi distinctio itaque harum quod, esse qui tenetur sit praesentium doloribus minima facilis, aliquam similique pariatur omnis modi! Voluptatem veritatis laborum excepturi nam nesciunt enim accusantium optio tempore hic tenetur sequi quibusdam, atque labore recusandae. Delectus, illo sapiente animi asperiores doloribus culpa.',
         author: '@author',
-        authorImage: 'images/avatar.png',
+        authorImage: '../src/assets/avatar.png',
         date: '20 Aug 2024',
         tags: ['internet', 'technology', 'programming'],
     };
 
-    const { title, content, author, authorImage, date, tags } = post;
+    const { id, postImage, title, content, author, authorImage, date, tags } = blogPost;
 
     return (
-        <div className='w-[90%] md:w-[70%] h-fit flex flex-col md:flex-row justify-center shadow-lg rounded-xl overflow-hidden'>
+        <div className='w-[90%] md:w-[70%] h-fit flex flex-col md:flex-row justify-center shadow-lg rounded-xl overflow-hidden gap-2 bg-white'>
             <div className='w-full md:w-[35%] h-[150px] md:h-auto flex justify-center items-center rounded-xl overflow-hidden md:shrink-0'>
-                <img src="images/blog-post.jpg" alt="" className='w-full h-full object-cover' />
+                <img src={postImage} alt="" className='w-full h-full object-cover' />
             </div>
             <div className='w-full md:w-[65%]  md:h-auto flex flex-col py-2 md:py-5 px-3 justify-between'>
                 <div className='flex flex-col'>
