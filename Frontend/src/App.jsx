@@ -10,6 +10,7 @@ import PostView from './pages/Posts/PostView';
 import PostCreate from './pages/Posts/PostCreate';
 import PostEdit from './pages/Posts/PostEdit';
 import PostList from './pages/Posts/PostList';
+import NotFound404 from './pages/NotFound404';
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
           <Route path="/post/edit/:id" element={<PostEdit />} />
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/" element={<PostList />} />
+          <Route path="/" element={<Home />} />
+
+          <Route path="*" element={<NotFound404 />} />
         </Routes>
         <Footer />
       </Router>
