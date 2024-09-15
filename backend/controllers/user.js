@@ -4,7 +4,7 @@ import userModel from "../models/userModel.js";
 //@GET: /api/user/details
 export const userDetails = async (req, res) => {
     try {
-        const userName = req.body.userName;  // TODO: Get Current UserName from Token
+        const userName = req.body.userName;  // TODO: Get Current UserName or Email from Token
 
         const user = await userModel.findOne({ userName: userName }).select("-password");
 
