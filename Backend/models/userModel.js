@@ -31,6 +31,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    totalPosts: {
+        type: Number,
+        default: 0,
+    },
+    totalFollowers: {
+        type: Number,
+        default: 0,
+    },
+    totalFollowing: {
+        type: Number,
+        default: 0,
+    },
+    description: {
+        type: String,
+        default: "",
+    },
     verified: {
         type: Boolean,
         default: false,
