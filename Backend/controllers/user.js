@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
+import { uploadImage } from '../utils/uploadImage_Cloudinary.js';
+import { deleteOldPhoto } from '../utils/deleteOldPhoto_Cloudinary.js';
 
 //@GET: /api/user/details
 export const userDetails = async (req, res) => {
@@ -32,8 +34,9 @@ export const userDetails = async (req, res) => {
 export const userRegister = async (req, res) => {
     try {
         let { userName, fullName, email, phone, password } = req.body;
+        const photo = req.files?.photo;
 
-        if (!userName || !fullName || !email || !phone || !password) {
+        if (!userName || !fullName || !email || !phone || !password || !photo) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -57,7 +60,6 @@ export const userRegister = async (req, res) => {
             }
         });
 
-
         if (isUserNameExist) {
             return res.status(400).json({
                 success: false,
@@ -67,15 +69,36 @@ export const userRegister = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
+        const uploadImageResult = await uploadImage(photo, "profiles");
+
+        if (uploadImageResult.success === false) {
+            return res.status(400).json({
+                success: false,
+                message: uploadImageResult.message
+            });
+        }
+
+        const photoData = {
+            public_id: uploadImageResult.public_id,
+            url: uploadImageResult.url
+        };
+
+        console.log(uploadImageResult);
+
         const newUser = new userModel({
             userName,
             fullName,
             email: email.toLowerCase().trim(),
             phone,
+            photo: photoData,
             password: hashedPassword
         });
 
+        // TODO: send OTP verification email to new user
+
         await newUser.save();
+
+        // TODO: send welcome email to new user with login credentials
 
         return res.status(201).json({
             success: true,
@@ -161,7 +184,8 @@ export const userLogin = async (req, res) => {
 export const userUpdateProfile = async (req, res) => {
     try {
         const userId = req.userInfo.userId;
-        let { userName, fullName, phone, photo, city, description } = req.body;
+        let { userName, fullName, phone, city, description } = req.body;
+        let photo = req.files?.photo;
 
         const user = await userModel.findOne({ _id: userId });
         if (!user) {
@@ -174,16 +198,17 @@ export const userUpdateProfile = async (req, res) => {
         if (userName) {
             userName = userName.trim().replace(/[^a-zA-Z0-9-]/g, '');
 
-            if (userName.toLowerCase() === user.userName.toLowerCase()) {
-                return res.status(400).json({
-                    success: false,
-                    message: "UserName can't be same"
-                });
-            }
+            // if (userName.toLowerCase() === user.userName.toLowerCase()) {
+            //     return res.status(400).json({
+            //         success: false,
+            //         message: "UserName can't be same"
+            //     });
+            // }
 
             const isUserNameExist = await userModel.findOne({
                 userName: {
-                    $regex: new RegExp(`^${userName}$`, 'i')
+                    $regex: new RegExp(`^${userName}$`, 'i'),
+                    $ne: user.userName
                 }
             });
 
@@ -196,6 +221,22 @@ export const userUpdateProfile = async (req, res) => {
             }
         }
 
+        if (photo) {
+            const uploadImageResult = await uploadImage(photo, "profiles");
+            if (uploadImageResult.success === false) {
+                return res.status(400).json({
+                    success: false,
+                    message: uploadImageResult.message
+                });
+            }
+            photo = {
+                public_id: uploadImageResult.public_id,
+                url: uploadImageResult.url
+            };
+        }
+
+        await deleteOldPhoto(user.photo.public_id);
+
         const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {
             userName: userName ? userName : user.userName,
             fullName: fullName ? fullName : user.fullName,
@@ -204,6 +245,8 @@ export const userUpdateProfile = async (req, res) => {
             city: city ? city : user.city,
             description: description ? description : user.description
         }, { new: true });
+
+        // TODO: send email to user with updated profile
 
         return res.status(200).json({
             success: true,
@@ -256,6 +299,8 @@ export const userUpdatePassword = async (req, res) => {
             password: hashedPassword
         });
 
+        // TODO: Send email to user for password change
+
         return res.status(200).json({
             success: true,
             message: "Password updated successfully"
@@ -270,7 +315,7 @@ export const userUpdatePassword = async (req, res) => {
     }
 };
 
-// @POST: /api/user/delete
+// @DELETE: /api/user/delete
 export const userDelete = async (req, res) => {
     try {
         const userId = req.userInfo.userId;
@@ -301,6 +346,9 @@ export const userDelete = async (req, res) => {
         }
 
         await userModel.deleteOne({ _id: user._id }); // TODO: Make status to false for soft delete
+
+        // TODO: Send email to user for account deletion
+
         return res.status(200).json({
             success: true,
             message: "User deleted successfully"
@@ -313,7 +361,6 @@ export const userDelete = async (req, res) => {
         });
     }
 };
-
 
 
 
