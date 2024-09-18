@@ -76,26 +76,20 @@ GET: `/search-post/:search`
 `search` from body
 ```
 
-(Optional) GET: `/popular-post`
+GET: `/popular-post`
 
 ```js
 fetch all posts sort by views
 ```
 
-(Optional) GET: `/latest-post`
-
-```js
-fetch all posts sort by date
-```
-
-POST: `/new-post`
+POST: `/create-post`
 
 ```js
 `title, content, tags, postImage` from body
 `author, authorImage` from Current User
 ```
 
-PUT: `/edit-post/:id`
+PUT: `/update-post/:id`
 
 ```js
 fetch post `id` from body

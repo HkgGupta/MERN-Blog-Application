@@ -5,7 +5,7 @@ const PostCard = ({ post }) => {
 
     const navigate = useNavigate();
 
-    const { id, postImage, title, content, author, authorImage, date, tags } = post;
+    const { id, postThumbnail, title, content, author, authorImage, date, tags } = post;
 
     // Handle post click
     const handlePostClick = (e) => {
@@ -29,7 +29,7 @@ const PostCard = ({ post }) => {
         <div className='w-[90%] md:w-[70%] h-fit flex flex-col md:flex-row justify-center shadow-lg rounded-xl overflow-hidden gap-2 bg-white' key={id} onClick={(e) => handlePostClick(e)}>
             {/* Image */}
             <div className='w-full md:w-[35%] h-[150px] md:h-auto flex justify-center items-center rounded-xl overflow-hidden md:shrink-0 cursor-pointer'>
-                <img src={postImage} alt="" className='w-full h-full object-cover' />
+                <img src={postThumbnail} alt="" className='w-full h-full object-cover' />
             </div>
 
             {/* Content */}

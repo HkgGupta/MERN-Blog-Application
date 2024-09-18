@@ -6,7 +6,7 @@ const PostList = () => {
     const posts = [
         {
             id: 11,
-            postImage: '../src/assets/blog-post.jpg',
+            postThumbnail: '../src/assets/blog-post.jpg',
             title: 'Post 1: Lorem ipsum dolor sit amet',
             content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit...',
             author: '@author1',
@@ -16,7 +16,7 @@ const PostList = () => {
         },
         {
             id: 22,
-            postImage: '../src/assets/blog-post.jpg',
+            postThumbnail: '../src/assets/blog-post.jpg',
             title: 'Post 2: Another Interesting Blog Post',
             content: 'This is another short excerpt of the second blog post...',
             author: '@author2',

@@ -83,7 +83,7 @@ export const userRegister = async (req, res) => {
             url: uploadImageResult.url
         };
 
-        console.log(uploadImageResult);
+        // console.log(uploadImageResult);
 
         const newUser = new userModel({
             userName,
@@ -180,6 +180,42 @@ export const userLogin = async (req, res) => {
     }
 };
 
+// @POST: /api/user/user-verify
+export const userVerify = async (req, res) => {
+    try {
+        const { userId } = req.userInfo;
+
+        if (!userId) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        const user = await userModel.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        user.verified = true;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "User verified successfully"
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+};
+
 // @POST: /api/user/user-update-profile
 export const userUpdateProfile = async (req, res) => {
     try {
@@ -197,13 +233,6 @@ export const userUpdateProfile = async (req, res) => {
 
         if (userName) {
             userName = userName.trim().replace(/[^a-zA-Z0-9-]/g, '');
-
-            // if (userName.toLowerCase() === user.userName.toLowerCase()) {
-            //     return res.status(400).json({
-            //         success: false,
-            //         message: "UserName can't be same"
-            //     });
-            // }
 
             const isUserNameExist = await userModel.findOne({
                 userName: {

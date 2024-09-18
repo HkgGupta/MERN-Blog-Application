@@ -55,6 +55,10 @@ export const uploadImage = async (image, folderName) => {
         )
         .catch((error) => {
             console.log(error);
+            return {
+                success: false,
+                message: "Upload Failed to Cloudinary"
+            };
         });
 
     // remove image from public folder
