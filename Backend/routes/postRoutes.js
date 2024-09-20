@@ -1,6 +1,6 @@
 import express from 'express';
 import { userAuth } from '../middleware/userAuth.js';
-import { createPost, getAllPosts, getPopularPosts, getPostById, getPostsByTag, postsByUserName, searchPost } from '../controllers/posts.js';
+import { createPost, deletePost, getAllPosts, getPopularPosts, getPostById, getPostsByTag, postsByUserName, searchPost, updatePost } from '../controllers/posts.js';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get('/getPopularPosts', getPopularPosts);
 router.get('/search-post/:search', searchPost);
 
 router.post('/create-post', userAuth, createPost);
-// router.patch('/update-post/:id', userAuth, updatePost);
-// router.delete('/delete-post/:id', userAuth, deletePost);
+router.put('/update-post/:postId', userAuth, updatePost);
+router.delete('/delete-post/:postId', userAuth, deletePost);
 
 export default router;

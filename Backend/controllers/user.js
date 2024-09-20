@@ -262,9 +262,9 @@ export const userUpdateProfile = async (req, res) => {
                 public_id: uploadImageResult.public_id,
                 url: uploadImageResult.url
             };
-        }
 
-        await deleteOldPhoto(user.photo.public_id);
+            await deleteOldPhoto(user.photo.public_id);
+        }
 
         const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {
             userName: userName ? userName : user.userName,

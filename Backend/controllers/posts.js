@@ -1,6 +1,7 @@
 import postModel from "../models/postModel.js";
 import userModel from "../models/userModel.js";
 import { uploadImage } from "../utils/uploadImage_Cloudinary.js";
+import { deleteOldPhoto } from "../utils/deleteOldPhoto_Cloudinary.js";
 
 // @GET: /api/post/all-posts
 export const getAllPosts = async (req, res) => {
@@ -299,3 +300,166 @@ export const createPost = async (req, res) => {
         });
     }
 };
+
+export const updatePost = async (req, res) => {
+    try {
+        const { userId } = req.userInfo;
+        const { postId } = req.params;
+        let { title, content, tags, aliasURL } = req.body;
+        const postThumbnail = req.files?.postThumbnail;
+
+        if (!userId) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        if (!postId) {
+            return res.status(400).json({
+                success: false,
+                message: "Post ID is required"
+            });
+        }
+
+        const post = await postModel.findOne({ _id: postId });
+
+        if (!post) {
+            return res.status(404).json({
+                success: false,
+                message: "Post not found"
+            });
+        }
+
+        if (post.userId.toString() !== userId) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to update this post"
+            });
+        }
+
+        if (aliasURL) {
+            aliasURL = aliasURL.trim().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+            const isAliasURLExist = await postModel.findOne({
+                aliasURL: {
+                    $regex: new RegExp(`^${aliasURL}$`, 'i'),
+                    $ne: post.aliasURL
+                }
+            });
+
+            if (isAliasURLExist) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Alias URL already exists"
+                });
+            }
+        }
+
+        if (tags) {
+            tags = tags.split(",").map((tag) => tag.trim().toLowerCase());
+            tags = tags.filter((tag) => tag !== '');
+        }
+
+        const user = await userModel.findOne({ _id: userId });
+
+        if (!user || !user.verified) {
+            return res.status(401).json({
+                success: false,
+                message: "User not found or not verified"
+            });
+        }
+
+        if (postThumbnail) {
+            const uploadImageResult = await uploadImage(postThumbnail, "postThumbnail");
+
+            if (uploadImageResult.success === false) {
+                return res.status(400).json({
+                    success: false,
+                    message: uploadImageResult.message
+                });
+            }
+
+            postThumbnail = {
+                public_id: uploadImageResult.public_id,
+                url: uploadImageResult.url
+            };
+
+            await deleteOldPhoto(post.postThumbnail.public_id);
+        }
+
+        const updatedPost = await postModel.findByIdAndUpdate({ _id: postId }, {
+            aliasURL: aliasURL ? aliasURL : post.aliasURL,
+            title: title ? title : post.title,
+            content: content ? content : post.content,
+            postThumbnail: postThumbnail ? postThumbnail : post.postThumbnail,
+            tags: tags ? tags : post.tags,
+        },
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Post Updated successfully",
+            data: updatedPost
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+};
+
+export const deletePost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const { userId } = req.userInfo;
+
+        if (!postId) {
+            return res.status(400).json({
+                success: false,
+                message: "Post ID is required"
+            });
+        }
+
+        if (!userId) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        const post = await postModel.findById(postId);
+        if (!post) {
+            return res.status(404).json({
+                success: false,
+                message: "Post not found"
+            });
+        }
+
+        if (post.userId.toString() !== userId) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to delete this post"
+            });
+        }
+
+        await postModel.findByIdAndUpdate(postId, {
+            visibility: "deleted"
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Post deleted successfully"
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+};
+

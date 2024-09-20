@@ -38,6 +38,11 @@ const postSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
+    visibility: {
+        type: String,
+        enum: ['public', 'private', 'delete'],
+        default: 'public'
+    },
     views: {
         type: Number,
         default: 0

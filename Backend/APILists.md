@@ -51,7 +51,7 @@ GET: `/all-posts`
 Fetch All Posts
 ```
 
-GET: `/postById/:id`
+GET: `/postById/:postId`
 
 ```js
 `postId` from body
@@ -89,7 +89,7 @@ POST: `/create-post`
 `author, authorImage` from Current User
 ```
 
-PUT: `/update-post/:id`
+PUT: `/update-post/:postId`
 
 ```js
 fetch post `id` from body
@@ -97,7 +97,7 @@ fetch post `id` from body
 `author, authorImage` from Current User
 ```
 
-DELETE: `/delete-post/:id`
+DELETE: `/delete-post/:postId`
 
 ```js
 `id` from body
